@@ -1,0 +1,113 @@
+* {
+  padding: 0;
+  margin: 0;
+  font-weight: normal;
+  box-sizing: border-box;
+}
+
+.navbar {
+  font-size: 17px;
+  line-height: 26px;
+  text-transform: uppercase;
+  box-shadow: 0 8px 6px -6px gray;
+  --webkit-box-shadow: 0 8px 6px -6px;
+  border-bottom: solid gray !important;
+}
+
+.nav-link {
+  font-weight: 300 !important;
+}
+
+.active {
+  border-bottom: 2px solid black;
+}
+
+.navbar-brand {
+  font-weight: 700;
+  letter-spacing: 3px;
+}
+
+.footer {
+  color: white;
+  padding: 25px;
+  background: black;
+  background: -webkit-linear-gradient(to right, gray, black);
+
+  background: linear-gradient(to right, gray, black);
+}
+
+.footer a {
+  text-decoration: none;
+  color: white;
+  padding: 10px;
+}
+.footer a:hover {
+  color: bisque;
+  border-bottom: 1px solid yellow;
+}
+
+.pnf {
+  display: flex;
+  min-height: 65vh;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.pnf-title {
+  font-size: 100px;
+  font-weight: 700;
+}
+
+.pnf-heading {
+  font-weight: normal;
+}
+
+.pnf-btn {
+  color: black;
+  border: 1px solid black;
+  text-decoration: none;
+  padding: 10px;
+}
+
+.contactus {
+  padding: 50px;
+  padding-left: 30px;
+}
+
+p {
+  line-height: 60px;
+  font-size: larger;
+  font-weight: bold;
+  padding-left: 30px;
+}
+
+p.mt-2 {
+  line-height: normal;
+}
+
+.register {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  height: 70vh;
+  justify-content: center;
+}
+
+.product-link {
+  text-decoration: none !important;
+}
+
+.fixing {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap:10px;
+}
+h4{
+  font-weight: normal;
+}
+
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;

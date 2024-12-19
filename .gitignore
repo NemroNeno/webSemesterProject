@@ -1,0 +1,20 @@
+# Exclude .env files from all folders
+**/.env
+
+# Exclude node_modules from all folders
+**/node_modules
+
+# Optional: Exclude log files
+**/*.log
+
+# Optional: Exclude temporary files
+**/.DS_Store
+**/Thumbs.db
+
+# Optional: Exclude build folders (if applicable)
+**/build
+**/dist
+
+# Optional: Exclude IDE files (VS Code, JetBrains, etc.)
+.vscode/
+.idea/
