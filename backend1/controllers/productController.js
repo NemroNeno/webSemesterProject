@@ -20,7 +20,7 @@ var gateway = new braintree.BraintreeGateway({
 export const createProductController = async (req, res) => {
   try {
     console.log(req.fields.name);
-    const { name, description, price, category, quantity } = req.fields;
+    const { name, description, price, category, quantity, seller } = req.fields;
     const { photo } = req.files;
     const products = new productModel({ ...req.fields, slug: slugify(name) });
 
@@ -67,19 +67,30 @@ export const getAllProduct = async (req, res) => {
   }
 };
 
-export const getProduct = async (req, res) => {
+
+
+
+
+
+export const getAllProductAdmin = async (req, res) => {
   try {
-    const product = await productModel
-      .findOne({ slug: req.params.slug })
-      .populate("category")
-      .select("-photo");
-      console.log(product)
+    const user_id = req.params.user_id; // Extract the seller's user_id from request parameters
+
+    // Fetch products filtered by the seller's user_id
+    const products = await productModel
+      .find({ seller: user_id }) // Ensure we filter products by the seller field
+      .select("-photo") // Exclude the photo field from results
+      .limit(12) // Limit the number of results to 12
+      .sort({ createdAt: -1 }) // Sort results by creation date, newest first
+      .populate("category") // Populate the category field with related data
+
     res.status(200).send({
-      message: "Products retrivied successfully",
+      message: "Products retrieved successfully",
       success: true,
-      product,
+      products,
     });
   } catch (error) {
+    console.log(error);
     res.status(500).send({
       message: "Something went wrong",
       success: false,
@@ -87,6 +98,44 @@ export const getProduct = async (req, res) => {
     });
   }
 };
+
+
+export const getProduct = async (req, res) => {
+  try {
+    const product = await productModel
+      .findOne({ slug: req.params.slug })
+      .populate("category") // Populate category details
+      .populate({
+        path: "seller", // Populate seller details
+        select: "name", // Only fetch the seller's name
+      })
+      .select("-photo"); // Exclude the photo field
+
+    
+      console.log(product)
+
+    if (!product) {
+      return res.status(404).send({
+        message: "Product not found",
+        success: false,
+      });
+    }
+
+    res.status(200).send({
+      message: "Product retrieved successfully",
+      success: true,
+      product,
+    });
+  } catch (error) {
+    res.status(500).send({
+      message: "Something went wrong",
+      success: false,
+      error: error.message,
+    });
+  }
+};
+
+
 
 export const getPhoto = async (req, res) => {
   try {
@@ -324,14 +373,24 @@ export const brainTreeTokenController = async (req, res) => {
   }
 };
 
-//For payment
 export const brainTreePaymentController = async (req, res) => {
   try {
     const { item, nonce } = req.body;
     let total = 0;
+    let sellers = []; // To store seller IDs for each product
+
+    // Calculate total price and gather seller IDs
     item.map((i) => {
       total += i.price;
+      sellers.push(i.seller); // Collect seller ID from each product
     });
+
+    
+
+    // Check if all products have the same seller (optional business logic)
+    // If needed, you can add logic here to check if all sellers match or any other validation.
+
+    // Proceed with the Braintree transaction
     let newtransaction = gateway.transaction.sale(
       {
         amount: total,
@@ -340,17 +399,23 @@ export const brainTreePaymentController = async (req, res) => {
           submitForSettlement: true,
         },
       },
-      function (error, result) {
+      async function (error, result) {
         if (result) {
+          // Create the order object with the seller ID (assuming we use the first seller for simplicity)
+          // If multiple sellers are involved, you might need to adjust how you handle this.
           const order = new OrderModel({
             products: item,
             payment: result,
             buyer: req.user._id,
-          }).save();
+            seller: sellers[0], // Assuming all products have the same seller, take the first seller
+          });
+
+          // Save the order to the database
+          await order.save();
 
           res.json({ ok: true });
         } else {
-          res.status(500).send(error);
+          res.status(500).send({ message: error.message });
         }
       }
     );
@@ -363,3 +428,4 @@ export const brainTreePaymentController = async (req, res) => {
     });
   }
 };
+

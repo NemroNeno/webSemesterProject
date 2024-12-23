@@ -3,6 +3,7 @@ import { isAdmin, requiredSignIn } from "../middlewares/authMiddleware.js";
 import {
   createProductController,
   getAllProduct,
+  getAllProductAdmin,
   getProduct,
   getPhoto,
   deleteProduct,
@@ -35,6 +36,7 @@ route.put(
 );
 
 route.get("/getall-product", getAllProduct);
+route.get("/getall-product_admin/:user_id", getAllProductAdmin);
 
 route.get("/get-product/:slug", getProduct);
 

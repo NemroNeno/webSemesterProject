@@ -28,7 +28,7 @@ const AdminOrders = () => {
   const getOrders = async () => {
     try {
       const { data } = await axios.get(
-        "http://localhost:8080/api/v1/auth/Allorders",
+        `http://localhost:8080/api/v1/auth/Allorders/${auth?.user?.id}`,
         {
           headers: {
             Authorization: auth?.token,

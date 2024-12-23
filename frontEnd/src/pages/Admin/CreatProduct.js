@@ -18,6 +18,7 @@ const CreatProduct = () => {
   const [quantity, setquantity] = useState("");
   const [photo, setPhoto] = useState("");
   const [shipping, setShipping] = useState("");
+  console.log(auth?.user)
 
 
   const navigate=useNavigate();
@@ -27,7 +28,7 @@ const CreatProduct = () => {
       const res = await axios.get(
         "http://localhost:8080/api/v1/category/getall-category"
       );
-      console.log(res.data);
+
       if (res.data.success) {
         setCategories(res.data.category);
       }
@@ -52,6 +53,7 @@ const CreatProduct = () => {
       productData.append("photo",photo);
       productData.append("category",category);
       productData.append("shipping",shipping);
+      productData.append("seller",auth?.user?.id);
 
       console.log(productData);
       

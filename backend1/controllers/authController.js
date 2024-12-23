@@ -106,16 +106,18 @@ export const loginController = async (req, res) => {
       }
     );
 
-
+    console.log(dataUser._id);
     return res.status(201).send({
       success: true,
       message: "Login is successfull.",
       user: {
+        id: dataUser._id,
         name: dataUser.name,
         email: dataUser.email,
         phoneNo: dataUser.phoneNo,
         address: dataUser.address,
         role: dataUser.role,
+       
       },
       token,
     });
@@ -229,23 +231,30 @@ export const getOrders = async (req, res) => {
   }
 };
 
+
+
 export const getAllOrders = async (req, res) => {
   try {
-    const orders = await OrderModels.find({})
-      .populate("products", "-photo")
-      .populate("buyer", "name")
-      .sort({ createdAt: "-1" });
+    const user_id = req.params.user_id; // Get the user_id from the request params
 
-    res.status(201).json(orders);
+    // Fetch orders where the seller's ID matches the provided user_id
+    const orders = await OrderModels.find({ seller: user_id })
+      .populate("products", "-photo") // Populate products without the photo field
+      .populate("buyer", "name") // Populate buyer's name
+      .sort({ createdAt: -1 }); // Sort by creation date in descending order
+
+    res.status(200).json(orders); // Return the orders in the response
   } catch (error) {
     console.log(error);
     res.status(500).send({
       success: false,
-      message: "Something went Wrong while getting orders",
+      message: "Something went wrong while getting orders",
       error,
     });
   }
 };
+
+
 
 export const orderStatusController = async (req, res) => {
   try {

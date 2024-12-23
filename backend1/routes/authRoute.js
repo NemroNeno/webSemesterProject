@@ -47,7 +47,7 @@ router.put("/profile", requiredSignIn,updateProfileController)
 router.get("/orders",requiredSignIn,getOrders)
 
 
-router.get("/Allorders",requiredSignIn,isAdmin,getAllOrders)
+router.get("/Allorders/:user_id",requiredSignIn,isAdmin,getAllOrders)
 
 router.put("/order-status/:id",requiredSignIn,isAdmin, orderStatusController)
 

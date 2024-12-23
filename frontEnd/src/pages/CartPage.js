@@ -65,6 +65,7 @@ const CartPage = () => {
         {
           nonce,
           item,
+         
         },
         {
           headers: {

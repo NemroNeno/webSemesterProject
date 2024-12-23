@@ -4,15 +4,18 @@ import Layout from "../../Components/Layouts/Layout";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { Link } from "react-router-dom";
+import { useAuth } from "../../Components/Layouts/context/auth.js";
+
 
 const Products = () => {
   const [products, setProducts] = useState([]);
+  const [auth, setAuth] = useAuth();
 
   //Getting all the products
   const getAllproducts = async () => {
     try {
       const res = await axios.get(
-        "http://localhost:8080/api/v1/product/getall-product"
+        `http://localhost:8080/api/v1/product/getall-product_admin/${auth?.user?.id}`
       );
       setProducts(res.data.products);
       products.map((c)=>{
