@@ -58,7 +58,7 @@ const LMSHeader = () => {
     <>
       <nav className="bg-white border-gray-200 dark:bg-gray-900 border border-b-slate-300 dark:border-gray-700 sticky top-0 z-50">
         <div className="flex flex-wrap items-center justify-around py-4 md:px-5">
-          <Link to="/" className="flex items-center space-x-3 rtl:space-x-reverse">
+          <Link to="/lms-home" className="flex items-center space-x-3 rtl:space-x-reverse">
             <img
               src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/logo.svg"
               className="h-8"
@@ -228,18 +228,7 @@ const LMSHeader = () => {
                     className={`absolute right-0 z-10 mt-2 w-44 bg-white rounded-md shadow-lg dark:bg-gray-700 ${adminDropdownOpen ? "block" : "hidden"}`}
                   >
                     <ul className="py-1 text-sm text-gray-700 dark:text-gray-200">
-                      <li>
-                        <NavLink
-                          className={({ isActive }) =>
-                            isActive
-                              ? "block w-full px-4 py-2 text-left bg-gray-100 dark:bg-gray-600 dark:text-white"
-                              : "block w-full px-4 py-2 text-left hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                          }
-                          to="/admin-panel"
-                        >
-                          All Users
-                        </NavLink>
-                      </li>
+
                       <li>
                         <NavLink
                           className={({ isActive }) =>

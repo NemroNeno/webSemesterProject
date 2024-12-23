@@ -130,7 +130,7 @@ const CartPage = () => {
                               viewBox="0 0 24 24"
                             >
                               <path
-                                stroke="currentColor"
+                                stroke="currentColor" 
                                 strokeLinecap="round"
                                 strokeLinejoin="round"
                                 strokeWidth="2"

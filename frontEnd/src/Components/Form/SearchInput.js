@@ -22,7 +22,7 @@ const SearchInput = ({ className }) => {
       console.log(error);
     }
   };
-
+ 
   return (
     <div className={className}>
       <form className="" role="search" onSubmit={handleSubmit}>

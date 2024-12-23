@@ -2,28 +2,25 @@ import React, { useEffect } from "react";
 import "./styles.css";
 import { useState } from "react";
 import axios from "axios";
-// import { useAuth } from "../Components/Layouts/context/auth";
 import { useNavigate } from "react-router-dom";
-
-// const auth?.token = localStorage.getItem("token");
+import LMSHeader from "../Components/LMSComponents/LMSHeader";
+import Footer from "../Components/Layouts/Footer";
 
 const LMSCart = () => {
   const [cart, setCart] = useState(null);
   const [total, setTotal] = useState(null);
-  // const { user } = useAuth();
+  let auth;
   const navigate = useNavigate();
 
-  let auth;
-
-  if(!auth){
+  if (!auth) {
     let cuser = localStorage.getItem("auth");
     console.log(typeof cuser);
     try {
       auth = JSON.parse(cuser);
       console.log(auth);
-  } catch (error) {
+    } catch (error) {
       console.error("Parsing error:", error);
-  }
+    }
   }
 
   useEffect(() => {
@@ -37,7 +34,7 @@ const LMSCart = () => {
         const response = await axios.get("http://localhost:5000/cart", {
           headers: {
             "Content-Type": "application/json",
-            "Authorization": `Bearer ${auth?.token}`,
+            Authorization: `Bearer ${auth?.token}`,
           },
         });
         setCart(response?.data?.userCart?.items);
@@ -45,8 +42,7 @@ const LMSCart = () => {
       } catch (error) {
         console.error(error.response ? error.response.data : error.message);
         alert(
-          `Error: ${
-            error.response ? error.response.data.message : error.message
+          `Error: ${error.response ? error.response.data.message : error.message
           }`
         );
       }
@@ -54,138 +50,259 @@ const LMSCart = () => {
     fetchCart();
   }, []);
 
-  const stripePayment = async() => {
+  const stripePayment = async () => {
     try {
-        const response = await axios.post('http://localhost:5000/cart/purchase', {}, {
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": `Bearer ${auth?.token}`,
-            },
-        })
-
-        const data = response.data;
-        
-        const enrollmentKeys = await handlePurchase();
-        alert(enrollmentKeys);
-
-        localStorage.setItem("enrollmentKeys", JSON.stringify(enrollmentKeys));
-
-        if(data.session.url){
-            window.location.href = data.session.url;
+      const response = await axios.post(
+        "http://localhost:5000/cart/purchase",
+        {},
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${auth?.token}`,
+          },
         }
+      );
 
+      const data = response.data;
+
+      const enrollmentKeys = await handlePurchase();
+      alert(enrollmentKeys);
+
+      localStorage.setItem("enrollmentKeys", JSON.stringify(enrollmentKeys));
+
+      if (data.session.url) {
+        window.location.href = data.session.url;
+      }
     } catch (error) {
-        console.error(error.response ? error.response.data : error.message);
-        alert(
-          `Error: ${
-            error.response ? error.response.data.message : error.message
-          }`
-        );
+      console.error(error.response ? error.response.data : error.message);
+      alert(
+        `Error: ${error.response ? error.response.data.message : error.message
+        }`
+      );
     }
-  }
+  };
 
-  const handlePurchase = async() => {
+  const handlePurchase = async () => {
     try {
-        console.log("clicked")
-        const response = await axios.post('http://localhost:5000/cart/enrollmentKeys',{cart},{headers: {
-            'Content-Type': "application/json",
-            "Authorization": `Bearer ${auth?.token}`
-        }});
-
-        if(response){
-            alert("Enrollment Key generated",await response.data.enrollmentKeys);
-            return response.data.enrollmentKeys;
+      console.log("clicked");
+      const response = await axios.post(
+        "http://localhost:5000/cart/enrollmentKeys",
+        { cart },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${auth?.token}`,
+          },
         }
+      );
+
+      if (response) {
+        alert("Enrollment Key generated", await response.data.enrollmentKeys);
+        return response.data.enrollmentKeys;
+      }
     } catch (error) {
-        console.error(error.response ? error.response.data : error.message);
-        alert(
-          `Error: ${
-            error.response ? error.response.data.message : error.message
-          }`
-        );
+      console.error(error.response ? error.response.data : error.message);
+      alert(
+        `Error: ${error.response ? error.response.data.message : error.message
+        }`
+      );
     }
-  }
+  };
 
   const handleCartQuantityChange = (courseId, newQuantity) => {
     setCart((prevCart) => {
-        return prevCart.map((item) =>
-          item.courseId._id === courseId ? { ...item, quantity: newQuantity } : item
-        );
-      });
+      return prevCart.map((item) =>
+        item.courseId._id === courseId
+          ? { ...item, quantity: newQuantity }
+          : item
+      );
+    });
 
-      setTotal((prevCart) => {
-        return cart.reduce((total, item) =>
-          item.courseId._id === courseId ? total + item.courseId.price * newQuantity : total + item.courseId.price * item.quantity
-        , 0);
-      });
-  }
+    setTotal((prevCart) => {
+      return cart.reduce(
+        (total, item) =>
+          item.courseId._id === courseId
+            ? total + item.courseId.price * newQuantity
+            : total + item.courseId.price * item.quantity,
+        0
+      );
+    });
+  };
 
   return (
-    <div className="h-screen w-screen flex flex-col bg-[#F3F4F6] overflow-auto p-8">
-      <p className="luckiest-guy-regular flex justify-center text-3xl">
-        Cart Items
-      </p>
-      {!cart && <div className="h-full w-full flex justify-center items-center ubuntu-medium">Nothing to show here!</div>}
-      {cart && <div className="flex flex-row h-full w-full  p-4">
-        {/* First Column of screen */}
-        <div className="h-full w-3/5  flex flex-col gap-3 overflow-y-auto">
-            {cart?.map((item, index) => {
-              return (
-                <div className="min-w-full h-1/5 bg-white flex-col justify-evenly shadow-xl rounded-lg border-2 border-gray-200 py-4 px-6">
-                  <div className="h-1/2 flex justify-between font-semibold">
-                    <p>{item?.courseId?.title}</p>
-                    <div class="flex items-center border-gray-700">
-                      <span onClick={()=>handleCartQuantityChange(item?.courseId, item.quantity > 1 ? item.quantity -= 1 : 1)} class="border-2 border-gray-300 cursor-pointer rounded-l justify-center flex bg-gray-100 py-1.5 px-3 duration-100 hover:bg-blue-500 hover:text-blue-50">
-                        -
-                      </span>
-                      <input
-                        class="py-2.5 w-8 border-2 border-gray-300 bg-white text-center text-xs outline-none"
-                        type="text"
-                        value={item.quantity}
-                        min="0"
-                      />
-                      <span onClick={()=>handleCartQuantityChange(item?.courseId, item.quantity += 1)} class="border-2 border-gray-300 cursor-pointer rounded-r justify-center flex bg-gray-100 py-1.5 px-3 duration-100 hover:bg-blue-500 hover:text-blue-50">
-                        +
-                      </span>
+    <section className="bg-white antialiased dark:bg-gray-900">
+      <LMSHeader />
+      <div className="mx-auto max-w-screen-xl px-4 2xl:px-0 py-16">
+        <h2 className="text-xl font-semibold text-gray-900 dark:text-white sm:text-2xl">
+          Cart Items
+        </h2>
+        {!cart && (
+          <div className="h-full w-full flex justify-center items-center ubuntu-medium">
+            Nothing to show here!
+          </div>
+        )}
+        {cart && (
+          <div className="mt-6 sm:mt-8 md:gap-6 lg:flex lg:items-start xl:gap-8">
+            <div className="mx-auto w-full flex-none lg:max-w-2xl xl:max-w-4xl">
+              <div className="space-y-6">
+                {cart?.map((item, index) => {
+                  return (
+                    <div
+                      key={index}
+                      className="rounded-lg border border-gray-200 bg-white p-4 shadow-sm dark:border-gray-700 dark:bg-gray-800 md:p-6"
+                    >
+                      <div className="space-y-4 md:flex md:items-center md:justify-between md:gap-6 md:space-y-0">
+                        <div className="w-full min-w-0 flex-1 space-y-4 md:order-2 md:max-w-md">
+                          <a
+                            href="#"
+                            className="text-base font-medium text-gray-900 hover:underline dark:text-white"
+                          >
+                            {item?.courseId?.title}
+                          </a>
+                          <div className="flex items-center gap-4">
+                            <button
+                              type="button"
+                              className="inline-flex items-center text-sm font-medium text-red-600 hover:underline dark:text-red-500"
+                              onClick={() =>
+                                handleCartQuantityChange(
+                                  item?.courseId,
+                                  item.quantity > 1
+                                    ? (item.quantity -= 1)
+                                    : 1
+                                )
+                              }
+                            >
+                              <svg
+                                className="me-1.5 h-5 w-5"
+                                aria-hidden="true"
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="24"
+                                height="24"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                              >
+                                <path
+                                  stroke="currentColor"
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                  strokeWidth="2"
+                                  d="M6 18 17.94 6M18 18 6.06 6"
+                                />
+                              </svg>
+                              Remove
+                            </button>
+                          </div>
+                        </div>
+                        <div className="flex items-center justify-between md:order-3 md:justify-end">
+                          <div className="text-end md:order-4 md:w-32">
+                            <p className="text-base font-bold text-gray-900 dark:text-white">
+                              ${item?.courseId?.price}
+                            </p>
+                          </div>
+                        </div>
+                        <div className="flex items-center border-gray-700">
+                          <span
+                            onClick={() =>
+                              handleCartQuantityChange(
+                                item?.courseId,
+                                item.quantity > 1
+                                  ? (item.quantity -= 1)
+                                  : 1
+                              )
+                            }
+                            className="border-2 border-gray-300 cursor-pointer rounded-l justify-center flex bg-gray-100 py-1.5 px-3 duration-100 hover:bg-blue-500 hover:text-blue-50"
+                          >
+                            -
+                          </span>
+                          <input
+                            className="py-2.5 w-8 border-2 border-gray-300 bg-white text-center text-xs outline-none"
+                            type="text"
+                            value={item.quantity}
+                            min="0"
+                          />
+                          <span
+                            onClick={() =>
+                              handleCartQuantityChange(
+                                item?.courseId,
+                                (item.quantity += 1)
+                              )
+                            }
+                            className="border-2 border-gray-300 cursor-pointer rounded-r justify-center flex bg-gray-100 py-1.5 px-3 duration-100 hover:bg-blue-500 hover:text-blue-50"
+                          >
+                            +
+                          </span>
+                        </div>
+                      </div>
                     </div>
-                  </div>
-                  <div className="h-1/2 flex justify-between">
-                    <p>{item?.courseId?.instructor}</p>
-                    <p>$ {item?.courseId?.price}</p>
+                  );
+                })}
+              </div>
+            </div>
+            <div className="mx-auto mt-6 max-w-4xl flex-1 space-y-6 lg:mt-0 lg:w-full">
+              <div className="space-y-4 rounded-lg border border-gray-200 bg-white p-4 shadow-sm dark:border-gray-700 dark:bg-gray-800 sm:p-6">
+                <p className="text-xl font-semibold text-gray-900 dark:text-white">
+                  Order summary
+                </p>
+                <div className="space-y-4">
+                  <div className="space-y-2">
+                    <dl className="flex items-center justify-between gap-4">
+                      <dt className="text-base font-normal text-gray-500 dark:text-gray-400">
+                        Original price
+                      </dt>
+                      <dd className="text-base font-medium text-gray-900 dark:text-white">
+                        ${total}
+                      </dd>
+                    </dl>
+                    <dl className="flex items-center justify-between gap-4 border-t border-gray-200 pt-2 dark:border-gray-700">
+                      <dt className="text-base font-bold text-gray-900 dark:text-white">
+                        Total
+                      </dt>
+                      <dd className="text-base font-bold text-gray-900 dark:text-white">
+                        ${total}
+                      </dd>
+                    </dl>
                   </div>
                 </div>
-              );
-            })}
-        </div>
-
-        {/* Second Column of screen */}
-        <div className="h-full flex flex-col w-2/5 p-4 gap-4">
-          <div className="shadow-xl h-3/5 flex flex-col bg-white border-gray-300 border-2 rounded-lg py-10 px-6 gap-4">
-            <div className="flex flex-row justify-between">
-              <p className="text-2xl">Subtotal</p>
-              <p className="text-2xl">{total}</p>
+                <div className="mt-4">
+                  <button
+                    onClick={stripePayment}
+                    className="w-full bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600"
+                  >
+                    Checkout
+                  </button>
+                </div>
+              </div>
+              <div className="space-y-4 rounded-lg border border-gray-200 bg-white p-4 shadow-sm dark:border-gray-700 dark:bg-gray-800 sm:p-6">
+                <form className="space-y-4">
+                  <div>
+                    <label
+                      htmlFor="voucher"
+                      className="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
+                    >
+                      Do you have a voucher or gift card?
+                    </label>
+                    <input
+                      type="text"
+                      id="voucher"
+                      className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500"
+                      placeholder=""
+                      required
+                    />
+                  </div>
+                  <button
+                    type="submit"
+                    className="flex w-full items-center justify-center rounded-lg bg-primary-700 px-5 py-2.5 text-sm font-medium text-white hover:bg-primary-800 focus:outline-none focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
+                  >
+                    Apply Code
+                  </button>
+                </form>
+              </div>
             </div>
-            <div className="h-1 w-full bg-gray-400 mt-4"></div>
-            <div className="flex flex-row justify-between">
-              <p className="text-2xl font-semibold">Total</p>
-              <p className="text-2xl">$ {total}</p>
-            </div>
-            <button onClick={stripePayment} className="w-full h-full text-white bg-blue-500 mt-4 rounded-md">
-              Checkout
-            </button>
           </div>
-          <div className="h-2/5 shadow-xl bg-white border-gray-300 flex flex-col justify-center items-center border-2 rounded-lg px-8 py-4">
-            <div className="flex flex-row justify-between w-full">
-              <p className="text-2xl font-semibold">Your Wallet</p>
-              <p className="text-2xl">Sum here</p>
-            </div>
-            <button className="w-full h-16 text-white bg-blue-500 mt-4 rounded-md">
-              Use Wallet
-            </button>
-          </div>
-        </div>
-      </div>}
-    </div>
+        )}
+      </div>
+      <Footer />
+    </section>
   );
 };
 
