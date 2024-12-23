@@ -73,6 +73,7 @@ export const getProduct = async (req, res) => {
       .findOne({ slug: req.params.slug })
       .populate("category")
       .select("-photo");
+      console.log(product)
     res.status(200).send({
       message: "Products retrivied successfully",
       success: true,
@@ -107,6 +108,7 @@ export const getPhoto = async (req, res) => {
 
 export const deleteProduct = async (req, res) => {
   try {
+    console.log(req.params.pid)
     await productModel.findByIdAndDelete(req.params.pid);
     res.status(200).send({
       message: "Products deleted successfully",

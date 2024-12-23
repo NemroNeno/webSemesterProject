@@ -1,9 +1,12 @@
 import React from "react";
 import { FaCartPlus } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
+
 
 const Product = ({ prod, addCart }) => {
+  const navigate = useNavigate();
   return (
-    <div className="group block overflow-hidden m-4 border-4 border-black/10 rounded-2xl w-[300px] h-[300px]">
+    <div className="group block overflow-hidden m-4 border-4 border-black/10 rounded-2xl w-[300px] h-[300px]" onClick={() => {navigate(`/product/${prod?.slug}`);}}>
       <img
         src={`http://localhost:8080/api/v1/product/get-productphoto/${prod?._id}`}
         alt=""

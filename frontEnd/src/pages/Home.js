@@ -30,6 +30,10 @@ const Home = () => {
   const [searchUsed, setSearchUsed] = useState(false);
 
  
+  const prodNavig = (slug) => {
+    console.log("Navigation to the product is not working")
+    navigate(`/product/${slug}`);
+  };
 
   //Getting All the Categories
   const getAllCategory = async () => {
@@ -243,7 +247,11 @@ const Home = () => {
           <div className="d-flex ">
             <div className="d-flex flex-wrap">
               {products.map((p) => (
-                <Product prod={p} addCart={addCart} />
+                <Product prod={p} addCart={addCart} onClick={
+                  () => {
+                    console.log("Product is clicked");
+                  }
+                } />
               ))}
             </div>
             {total}
