@@ -35,7 +35,12 @@ const productSchema=new mongoose.Schema({
 
        shipping:{
         type:Boolean
-       }
+       },
+       seller:{
+              type:mongoose.ObjectId,
+              ref:"users",
+              required:true,
+             },
 
 
 

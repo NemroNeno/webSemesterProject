@@ -1,7 +1,10 @@
 import React from "react";
 import { FaCartPlus } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
+
 
 const Product = ({ prod, addCart }) => {
+  const navigate = useNavigate();
   return (
     <div className="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 m-4 flex flex-col justify-between">
       <a href="#">
