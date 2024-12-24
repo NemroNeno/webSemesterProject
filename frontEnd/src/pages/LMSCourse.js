@@ -1,6 +1,8 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import LMSHeader from "../Components/LMSComponents/LMSHeader";
+import Footer from "../Components/Layouts/Footer";
 // import { useAuth } from "../Components/Layouts/context/auth";
 
 
@@ -15,15 +17,15 @@ const LMSCourse = () => {
   // const { user } = useAuth();
   let auth;
 
-  if(!auth){
+  if (!auth) {
     let cuser = localStorage.getItem("auth");
     console.log(typeof cuser);
     try {
       auth = JSON.parse(cuser);
       console.log(auth);
-  } catch (error) {
+    } catch (error) {
       console.error("Parsing error:", error);
-  }
+    }
   }
 
   const navigate = useNavigate();
@@ -53,7 +55,7 @@ const LMSCourse = () => {
     const coursePreviewDetails = async () => {
       try {
         const fetchedCourse = await axios
-          .get(`http://localhost:5000/course/${courseId}`,{
+          .get(`http://localhost:5000/course/${courseId}`, {
             headers: {
               "Content-Type": "application/json",
               "Authorization": `Bearer ${auth?.token}`,
@@ -71,10 +73,12 @@ const LMSCourse = () => {
     const courseDetails = async () => {
       try {
         const fetchedCourse = await axios
-          .get(`http://localhost:5000/course/${courseId}/details`,{headers: {
-            "Content-Type": "application/json",
-            "Authorization": `Bearer ${auth?.token}`,
-          },})
+          .get(`http://localhost:5000/course/${courseId}/details`, {
+            headers: {
+              "Content-Type": "application/json",
+              "Authorization": `Bearer ${auth?.token}`,
+            },
+          })
           .then((response) => {
             return response;
           });
@@ -103,7 +107,7 @@ const LMSCourse = () => {
             state: true,
             contents: response.data.contentItem,
           });
-        } else if(response.status === 201) {
+        } else if (response.status === 201) {
           console.log("no");
           alert("You are not enrolled in this course");
           coursePreviewDetails();
@@ -181,8 +185,7 @@ const LMSCourse = () => {
     } catch (error) {
       console.error("Error enrolling in course:", error);
       alert(
-        `Error enrolling in course: ${
-          error.response ? error.response.data.error : error.message
+        `Error enrolling in course: ${error.response ? error.response.data.error : error.message
         }`
       );
     }
@@ -198,13 +201,11 @@ const LMSCourse = () => {
 
   return (
     <div className="relative min-h-full w-screen bg-white overflow-hidden text-black">
+      <LMSHeader />
       <div className="absolute top-0 left-0 w-full h-[55vh] bg-gradient-to-r from-[#20385C] to-[#121f32] z-[0]"></div>
-      <div class="h-fit w-full relative flex items-start justify-center py-4 px-16 flex-row overflow-hidden">
-        
+      <div class="h-fit w-full relative flex items-start justify-center py-4 px-16 flex-row overflow-hidden pb-5">
+
         <div className="xl:w-2/5 md:w-1/2 lg:ml-8 md:ml-6 md:mt-0 mt-6 flex-1 mb-24">
-          <div onClick={()=>{
-            navigate('/lms-home');
-          }} className="p-2 text-white border-white border-2 rounded-lg w-fit cursor-pointer">Back to Courses</div>
           <div className="w-full h-28"></div>
           <div className="">
             <h1 class="text-6xl text-white dm-sans-bold font-semibold leading-tight lg:leading-snug mt-2">
@@ -290,40 +291,49 @@ const LMSCourse = () => {
           {!isEnrolled.state && (
             <div className="w-full h-5 mt-8 flex flex-col">
               <p className="ubuntu-medium">Enter Enrollment Key</p>
-              <input
-                value={enrollmentKey}
-                onChange={(e) => setEnrollmentKey(e.target.value)}
-                className="w-full p-3"
-                placeholder="Enter encrypted key..."
-              />
-              <div
-                onClick={enrolledInCourse}
-                className="flex h-5 w-full justify-end items-end mt-8"
-              >
-                <p className="py-2 px-4 cursor-pointer bg-gray-800 text-white">
+              <div className="flex rounded-lg shadow-sm mt-2">
+                <input
+                  type="text"
+                  value={enrollmentKey}
+                  onChange={(e) => setEnrollmentKey(e.target.value)}
+                  className="py-3 px-4 block w-full border-gray-200 shadow-sm rounded-s-lg text-sm focus:z-10 focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600"
+                  placeholder="Enter encrypted key..."
+                />
+                <button
+                  type="button"
+                  onClick={enrolledInCourse}
+                  className="py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-e-md border border-transparent bg-blue-600 text-white hover:bg-blue-700 focus:outline-none focus:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none"
+                >
                   Enter
-                </p>
+                </button>
               </div>
             </div>
           )}
           {isEnrolled.state && (
-            <div className="w-full h-fit flex flex-col">
-              <p className="text-3xl pt-12 nunito-sans-medium font-bold mb-8">Course Resouces</p>
-              <div className="w-full h-fit gap-8 flex flex-col">
-              {course?.files.map((file, index) => {
-                return (
-                  <div className="w-full h-10 flex flex-row gap-4" key={index}>
-                    <p className="p-4 bg-green-200 rowdies-light h-fit w-fit">{index}</p>
-                    <a
-                      href={`${file.path.replace(/^files[\\/]/, '')}`}
-                      download={file.originalName}
-                      className="text-blue-700 ubuntu-light h-fit p-4 w-full bg-blue-200"
+            <div className="w-full h-fit flex flex-col mt-8">
+              <p className="text-3xl pt-12 nunito-sans-medium font-bold mb-8">
+                Course Resources
+              </p>
+              <div className="w-full h-fit gap-4 flex flex-col">
+                {course?.files.map((file, index) => {
+                  return (
+                    <div
+                      className="w-full flex flex-row items-center gap-4 p-4 bg-gray-100 rounded-lg shadow-sm"
+                      key={index}
                     >
-                      {file.originalName}
-                    </a>
-                  </div>
-                );
-              })}
+                      <p className="p-2 bg-blue-200 text-blue-800 font-semibold rounded-lg">
+                        {index + 1}
+                      </p>
+                      <a
+                        href={`${file.path.replace(/^files[\\/]/, "")}`}
+                        download={file.originalName}
+                        className="text-blue-700 font-medium p-2 w-full bg-blue-50 rounded-lg hover:bg-blue-100"
+                      >
+                        {file.originalName}
+                      </a>
+                    </div>
+                  );
+                })}
               </div>
             </div>
           )}
@@ -336,6 +346,7 @@ const LMSCourse = () => {
           />
         </div>
       </div>
+      <Footer />
     </div>
   );
 };

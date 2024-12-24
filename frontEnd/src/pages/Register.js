@@ -6,6 +6,8 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import loader from "../gifs/loader.svg";
 import Modal from "react-modal";
+import { getRoles } from "@testing-library/react";
+import { use } from "react";
 
 const Register = () => {
   let subtitle;
@@ -46,14 +48,27 @@ const Register = () => {
     password: "",
     answer: "",
     rePassword: "",
+    role:0
   });
 
   const handleChange = (e) => {
+    console.log(user_info)
     const { name, value } = e.target;
-    setinfo({
+
+    if(name==="role"){
+      const val= e.target.checked ? 1 : 0
+      setinfo({
+        ...user_info,
+        [name]: val,
+      });
+    }
+    else
+{    setinfo({
       ...user_info,
       [name]: value,
     });
+  }
+    
   };
 
   const handleSubmit = async (e) => {
@@ -281,6 +296,9 @@ const Register = () => {
                       id="terms"
                       aria-describedby="terms"
                       type="checkbox"
+                      name="role"
+                      value={user_info.role}
+                      onChange={handleChange}
                       class="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-primary-600 dark:ring-offset-gray-800"
                       required=""
                     />
@@ -290,12 +308,12 @@ const Register = () => {
                       for="terms"
                       class="font-light text-gray-500 dark:text-gray-300"
                     >
-                      I accept the{" "}
+                     Do you want to {' '}
                       <a
                         class="font-medium text-primary-600 hover:underline dark:text-primary-500"
                         href="#"
                       >
-                        Terms and Conditions
+                        Become a seller?
                       </a>
                     </label>
                   </div>

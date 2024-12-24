@@ -34,6 +34,7 @@ import LMSCart from "./pages/LMSCart.js";
 import LMSCourse from "./pages/LMSCourse.js";
 import LMSNewCourse from "./pages/LMSNewCourse.js";
 import LMSCartSucess from "./pages/LMSCartSuccess.js";
+import './App.css'
 
 function App() {
   return (

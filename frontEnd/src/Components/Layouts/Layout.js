@@ -5,7 +5,7 @@ import { Toaster } from "react-hot-toast";
 
 const Layout = (props) => {
   return (
-    <div className="max-w-fit">
+    <div className="">
       <Header />
 
       <main style={{ minHeight: "70vh" }}>
@@ -16,6 +16,6 @@ const Layout = (props) => {
       <Footer />
     </div>
   );
-};
+}; 
 
 export default Layout;

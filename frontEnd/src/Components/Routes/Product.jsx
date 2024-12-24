@@ -1,31 +1,89 @@
 import React from "react";
 import { FaCartPlus } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
+
 
 const Product = ({ prod, addCart }) => {
+  const navigate = useNavigate();
   return (
-    <div className="group block overflow-hidden m-4 border-4 border-black/10 rounded-2xl w-[300px] h-[300px]">
-      <img
-        src={`http://localhost:8080/api/v1/product/get-productphoto/${prod?._id}`}
-        alt=""
-        className=" inset-0 h-[200px] w-[300px] p-2"
-      />
-
-      <div className="relative bg-white pt-3 text-center">
-        <h3 className="text-sm text-gray-700 group-hover:underline group-hover:underline-offset-4">
-          {prod?.description.substring(0, 30)}
-        </h3>
-
-        <div className="mt-1.5 flex items-center justify-between text-gray-900">
-          <p className="tracking-wide">${prod?.price}</p>
-
-          <p
+    <div className="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 m-4 flex flex-col justify-between">
+      <a href="#">
+        <img
+          className="p-8 rounded-t-lg object-cover h-72 w-full"
+          src={`http://localhost:8080/api/v1/product/get-productphoto/${prod?._id}`}
+          alt="product image"
+        />
+      </a>
+      <div className="px-5 pb-5 flex flex-col justify-between flex-grow">
+        <a href="#">
+          <h5 className="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">
+            {prod?.description.substring(0, 30)} 
+          </h5>
+        </a>
+        <div className="flex items-center mt-2.5 mb-5">
+          <div className="flex items-center space-x-1 rtl:space-x-reverse">
+            <svg
+              className="w-4 h-4 text-yellow-300"
+              aria-hidden="true"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="currentColor"
+              viewBox="0 0 22 20"
+            >
+              <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
+            </svg>
+            <svg
+              className="w-4 h-4 text-yellow-300"
+              aria-hidden="true"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="currentColor"
+              viewBox="0 0 22 20"
+            >
+              <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
+            </svg>
+            <svg
+              className="w-4 h-4 text-yellow-300"
+              aria-hidden="true"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="currentColor"
+              viewBox="0 0 22 20"
+            >
+              <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
+            </svg>
+            <svg
+              className="w-4 h-4 text-yellow-300"
+              aria-hidden="true"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="currentColor"
+              viewBox="0 0 22 20"
+            >
+              <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
+            </svg>
+            <svg
+              className="w-4 h-4 text-gray-200 dark:text-gray-600"
+              aria-hidden="true"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="currentColor"
+              viewBox="0 0 22 20"
+            >
+              <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
+            </svg>
+          </div>
+          <span className="bg-blue-100 text-blue-800 text-xs font-semibold px-2.5 py-0.5 rounded dark:bg-blue-200 dark:text-blue-800 ms-3">
+            5.0
+          </span>
+        </div>
+        <div className="flex items-center justify-between mt-auto">
+          <span className="text-3xl font-bold text-gray-900 dark:text-white">
+            ${prod?.price}
+          </span>
+          <button
             onClick={() => {
               addCart(prod);
             }}
-            className="text-2xl uppercase tracking-wide mr-3 cursor-pointer"
+            className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
           >
-            <FaCartPlus />
-          </p>
+            Add to cart
+          </button>
         </div>
       </div>
     </div>

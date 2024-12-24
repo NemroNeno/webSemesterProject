@@ -64,21 +64,22 @@ const handleDelete=async()=>{
 
 
  const getSingleProduct= async ()=>{
+  console.log(`http://localhost:8080/api/v1/product/get-product/${params.slug}`)
     try {
-        
+         console.log(`http://localhost:8080/api/v1/product/get-product/${params.slug}`)
         const res = await axios.get(
             `http://localhost:8080/api/v1/product/get-product/${params.slug}`
           );
-          setName(res.data.product.name);
-          setDescription(res.data.product.description);
-          setquantity(res.data.product.quantity);
-          setCategory(res.data.product.category._id);
-          setPrice(res.data.product.price);
-          setShipping(res.data.product.shipping);
-          setId(res.data.product._id);
+          setName(res?.data.product.name);
+          setDescription(res?.data.product.description);
+          setquantity(res?.data.product.quantity);
+          setCategory(res?.data.product.category._id);
+          setPrice(res?.data.product.price);
+          setShipping(res?.data.product.shipping);
+          setId(res?.data.product._id);
 
     } catch (error) {
-        console.log(error.response)
+        console.log(error)
         toast.error("Something went wrong")
     }
  }

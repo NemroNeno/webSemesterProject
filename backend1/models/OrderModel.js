@@ -15,6 +15,10 @@ const orderSchcema = new mongoose.Schema(
       type: mongoose.ObjectId,
       ref: "users",
     },
+    seller: {
+      type: mongoose.ObjectId,
+      ref: "users",
+    },
 
     status: {
       type: String,
@@ -27,6 +31,7 @@ const orderSchcema = new mongoose.Schema(
       ],
       default: "Not Processed",
     },
+
   },
   { timeStamps: true }
 );
