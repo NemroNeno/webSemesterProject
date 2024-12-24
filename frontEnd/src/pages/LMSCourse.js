@@ -227,7 +227,7 @@ const LMSCourse = () => {
               </tr>
             </thead>
             <tbody>
-              {parseJSONArrayFromString(course?.contents[0]).map(
+              {course?.contents?.map(
                   (
                     item,
                     index // Corrected order of parameters

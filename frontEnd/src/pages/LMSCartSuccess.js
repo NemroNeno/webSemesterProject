@@ -1,42 +1,64 @@
-import React, { useState } from "react";
+import React from "react";
 import "./styles.css";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 
 const LMSCartSucess = () => {
-  const navigate = useNavigate();
+    const navigate = useNavigate();
+    const enrollments = localStorage.getItem("enrollmentKeys");
+    const enrollmentKeys = JSON.parse(enrollments);
 
-  const enrollments = localStorage.getItem("enrollmentKeys");
-  const enrollmentKeys = JSON.parse(enrollments);
+    return (
+        <div className="min-h-screen w-screen bg-gray-200 flex items-center justify-center p-4">
+            <div className="bg-white shadow-lg rounded-lg max-w-3xl w-full p-6">
+                {/* Header Section */}
+                <div className="flex justify-between items-center mb-6">
+                    <h1 className="text-4xl font-bold text-gray-700">
+                        Payment Successful 🎉
+                    </h1>
+                    <button
+                        onClick={() => navigate("/lms-home")}
+                        className="px-4 py-2 bg-blue-600 text-white rounded-full hover:bg-blue-700 transition"
+                    >
+                        Go to Home
+                    </button>
+                </div>
 
-  return (
-    <div className="min-h-screen w-screen bg-gray-300 gap-8 flex p-2 items-center flex-col">
-      <div className="w-full">
-        <p
-          onClick={() => {
-            navigate("/lms-home");
-          }}
-          className="border-2 border-black w-fit h-fit rounded-full cursor-pointer ml-3"
-        >
-          Go to home screen
-        </p>
-      </div>
-      <div className="flex w-full h-full gap-4 flex-col items-center justify-center">
-        <p className="text-5xl nunito-sans-medium">Payment Successful</p>
-        <div className="h-fit w-full px-8 flex flex-col gap-4">
-          <p className="dm-sans-medium text-xl">
-            Following is your enrollment keys list: [The quantity and order of
-            keys will mathc according to provided cart]
-          </p>
-          <ol>
-            {enrollmentKeys?.map((item, index) => {
-              return <li className=" flex justify-center tiny5-regular text-[1.5em]">{item}</li>;
-            })}
-          </ol>
+                {/* Enrollment Keys Section */}
+                <div className="bg-gray-100 p-4 rounded-md shadow-inner">
+                    <p className="text-lg font-semibold mb-4 text-gray-800">
+                        Here is your enrollment keys list:
+                    </p>
+                    <ol className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        {enrollmentKeys?.map((item, index) => {
+                            const copyToClipboard = (text) => {
+                                navigator.clipboard
+                                    .writeText(text)
+                                    .then(() => alert(`Copied: ${text}`))
+                                    .catch((err) => console.error("Failed to copy: ", err));
+                            };
+
+                            return (
+                                <li
+                                    key={index}
+                                    className="flex justify-between items-center bg-white p-3 rounded-md shadow border border-gray-200"
+                                >
+                                    <span className="text-gray-700 text-base truncate max-w-[80%]">
+                                        {item.substring(0, 20)}...
+                                    </span>
+                                    <button
+                                        onClick={() => copyToClipboard(item)}
+                                        className="px-2 py-1 bg-blue-500 text-white rounded hover:bg-blue-600 transition text-sm"
+                                    >
+                                        Copy
+                                    </button>
+                                </li>
+                            );
+                        })}
+                    </ol>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
-  );
+    );
 };
 
 export default LMSCartSucess;
