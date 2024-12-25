@@ -32,11 +32,9 @@ const Footer = () => {
         </div>
 
         <div class="mt-16 grid grid-cols-1 gap-8 lg:grid-cols-2 lg:gap-32">
-          <div class="mx-auto max-w-sm lg:max-w-none">
-            <p class="mt-4 text-center text-gray-500 lg:text-left lg:text-lg dark:text-gray-400">
-              Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-              Praesentium natus quod eveniet aut perferendis distinctio iusto
-              repudiandae, provident velit earum?
+          <div class="">
+            <p class="mt-4 ps-0 text-sm text-gray-950 font-normal">
+              A unified platform empowering women through an e-commerce marketplace to showcase and sell their products, combined with a learning management system offering tailored courses and skill-building resources to foster personal and professional growth.
             </p>
 
             <div class="mt-6 flex justify-center gap-4 lg:justify-start">
@@ -148,63 +146,20 @@ const Footer = () => {
             </div>
           </div>
 
-          <div class="grid grid-cols-1 gap-8 text-center lg:grid-cols-3 lg:text-left">
-            <div>
-              <strong class="font-medium text-gray-900 dark:text-white">
-                {" "}
-                Services{" "}
-              </strong>
+          <div class="grid grid-cols-1 gap-8 lg:grid-cols-3 lg:text-left">
 
-              <ul class="mt-6 space-y-1">
-                <li>
-                  <a
-                    class="text-gray-700 transition hover:text-gray-700/75 dark:text-white dark:hover:text-white/75"
-                    href="#"
-                  >
-                    Marketing
-                  </a>
-                </li>
-
-                <li>
-                  <a
-                    class="text-gray-700 transition hover:text-gray-700/75 dark:text-white dark:hover:text-white/75"
-                    href="#"
-                  >
-                    Graphic Design
-                  </a>
-                </li>
-
-                <li>
-                  <a
-                    class="text-gray-700 transition hover:text-gray-700/75 dark:text-white dark:hover:text-white/75"
-                    href="#"
-                  >
-                    App Development
-                  </a>
-                </li>
-
-                <li>
-                  <a
-                    class="text-gray-700 transition hover:text-gray-700/75 dark:text-white dark:hover:text-white/75"
-                    href="#"
-                  >
-                    Web Development
-                  </a>
-                </li>
-              </ul>
-            </div>
 
             <div>
-              <strong class="font-medium text-gray-900 dark:text-white">
+              <strong class="font-semibold lg:ms-3 text-gray-900 dark:text-white">
                 {" "}
                 About{" "}
               </strong>
 
-              <ul class="mt-6 space-y-1">
+              <ul class="mt-6 space-y-1 lg:ms-3">
                 <li>
                   <a
                     class="text-gray-700 transition hover:text-gray-700/75 dark:text-white dark:hover:text-white/75"
-                    href="#"
+                    href="/about"
                   >
                     About
                   </a>
@@ -240,7 +195,7 @@ const Footer = () => {
             </div>
 
             <div>
-              <strong class="font-medium text-gray-900 dark:text-white">
+              <strong class="font-semibold text-gray-900 dark:text-white">
                 {" "}
                 Support{" "}
               </strong>
@@ -280,22 +235,7 @@ const Footer = () => {
         <div class="mt-16 border-t border-gray-100 pt-8 dark:border-gray-800">
           <p class="text-center text-xs/relaxed text-gray-500 dark:text-gray-400">
             © Company 2022. All rights reserved.
-            <br />
-            Created with
-            <a
-              href="#"
-              class="text-gray-700 underline transition hover:text-gray-700/75 dark:text-white dark:hover:text-white/75"
-            >
-              Laravel
-            </a>
-            and
-            <a
-              href="#"
-              class="text-gray-700 underline transition hover:text-gray-700/75 dark:text-white dark:hover:text-white/75"
-            >
-              Laravel Livewire
-            </a>
-            .
+
           </p>
         </div>
       </div>

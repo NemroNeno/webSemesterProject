@@ -3,6 +3,7 @@ module.exports = {
   content: [
     "./src/**/*.{js,jsx,ts,tsx}",
     "node_modules/flowbite-react/lib/esm/**/*.js",
+    "node_modules/flowbite/**/*.js"
   ],
   darkMode: "class",
   theme: {
@@ -60,5 +61,5 @@ module.exports = {
       ],
     },
   },
-  plugins: [require("flowbite/plugin", "@tailwindcss/forms")],
+  plugins: [require("flowbite/plugin", "@tailwindcss/forms"), require('flowbite/plugin')],
 };

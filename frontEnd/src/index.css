@@ -76,10 +76,10 @@
 }
 
 p {
-  line-height: 60px;
-  font-size: larger;
-  font-weight: bold;
-  padding-left: 30px;
+  /* line-height: 60px; */
+  /* font-size: la; */
+  font-weight: normal;
+  /* padding-left: 30px; */
 }
 
 p.mt-2 {

@@ -9,6 +9,7 @@ import { useCart } from "../Components/Layouts/context/cart";
 import Product from "../Components/Routes/Product";
 import { useSearch } from "../Components/Layouts/context/search";
 import { useAuth } from "../Components/Layouts/context/auth";
+import Carousel from "./Carousal";
 import '../App.css';
 
 const Home = () => {
@@ -145,7 +146,7 @@ const Home = () => {
   return (
     <Layout>
       <div className="row">
-        <ul className="flex flex-wrap text-sm font-medium text-center text-gray-500 border-b border-gray-200 dark:text-gray-400 dark:border-gray-700 no-scrollbar items-center">
+        <ul className="flex flex-wrap text-sm font-medium text-center text-gray-500 border-b border-gray-200 dark:text-gray-400 dark:border-gray-700 no-scrollbar items-center pb-0 mb-0">
           <li className="me-2 flex overflow-auto scrollbar-hide md:w-4/5">
             {categories?.map((c) => (
               <label
@@ -215,39 +216,16 @@ const Home = () => {
             </button>
           </li>
         </ul>
-        {/* <div id="default-carousel" className="relative w-full" data-carousel="slide">
-          <div className="relative overflow-hidden rounded-lg" style={{ height: "800px" }}>
-            <div className="hidden duration-700 ease-in-out" data-carousel-item>
-              <img src="https://m.media-amazon.com/images/I/51M4JArk-yL._SX1500_.jpg" className="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="..." />
-            </div>
-            <div className="hidden duration-700 ease-in-out" data-carousel-item>
-              <img src="https://m.media-amazon.com/images/I/71VcGrxQRBL._SX3000_.jpg" className="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="..." />
-            </div>
-          </div>
-          <button type="button" className="absolute top-0 start-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none" data-carousel-prev>
-            <span className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/30 dark:bg-gray-800/30 group-hover:bg-white/50 dark:group-hover:bg-gray-800/60 group-focus:ring-4 group-focus:ring-white dark:group-focus:ring-gray-800/70 group-focus:outline-none">
-              <svg className="w-4 h-4 text-white dark:text-gray-800 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
-                <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 1 1 5l4 4" />
-              </svg>
-              <span className="sr-only">Previous</span>
-            </span>
-          </button>
-          <button type="button" className="absolute top-0 end-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none" data-carousel-next>
-            <span className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/30 dark:bg-gray-800/30 group-hover:bg-white/50 dark:group-hover:bg-gray-800/60 group-focus:ring-4 group-focus:ring-white dark:group-focus:ring-gray-800/70 group-focus:outline-none">
-              <svg className="w-4 h-4 text-white dark:text-gray-800 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
-                <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 9 4-4-4-4" />
-              </svg>
-              <span className="sr-only">Next</span>
-            </span>
-          </button>
-        </div> */}
-        <div className="col-12">
-          <div className="d-flex flex-wrap">
+        <div className="relative z-0">
+          <Carousel />
+        </div>
+        <div className="col-12 relative z-10" style={{ marginTop: "-150px" }}>
+          <div className="d-flex flex-wrap md:px-5 md:mx-5 md:gap-5">
             {products.map((p) => (
               <Product key={p._id} prod={p} addCart={addCart} />
             ))}
           </div>
-          <div className="m-2 p-3">
+          <div className="m-2 p-3 text-center">
             {products && products.length < total && (
               <button
                 className="btn btn-warning"
@@ -258,6 +236,14 @@ const Home = () => {
                 {loading ? "Loading...." : "Load More"}
               </button>
             )}
+          </div>
+          <div className="m-2 p-3 text-center">
+            <button
+              className="btn btn-primary p-2 px-4"
+              onClick={() => navigate("/categories")}
+            >
+              View All Categories
+            </button>
           </div>
         </div>
       </div>

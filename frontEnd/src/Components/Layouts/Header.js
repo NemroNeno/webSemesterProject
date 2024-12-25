@@ -25,7 +25,7 @@ const Header = () => {
     });
 
     localStorage.removeItem("auth");
-    alert("Logout successfully");
+    toast.success("Logout successfully");
   };
 
   const toggleSearch = () => {
@@ -159,62 +159,104 @@ const Header = () => {
                   Cart{`(${item.length})`}
                 </NavLink>
               </li>
-              <li className="relative">
-                <button
-                  className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700 flex items-center"
-                  onClick={toggleDropdown}
-                >
-                  {selectedDashboard}
-                  <svg
-                    className="w-4 h-4 ml-1"
-                    aria-hidden="true"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 20 20"
-                  >
-                    <path
-                      stroke="currentColor"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="m5 7 5 5 5-5"
-                    />
-                  </svg>
-                </button>
-                <div
-                  className={`absolute right-0 z-10 mt-2 w-44 bg-white rounded-md shadow-lg dark:bg-gray-700 ${dropdownOpen ? "block" : "hidden"}`}
-                >
-                  <ul className="py-1 text-sm text-gray-700 dark:text-gray-200">
-                    <li>
-                      <button
-                        className="block w-full px-4 py-2 text-left hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white flex items-center"
-                        onClick={() => navigateToDashboard("user")}
-                      >
-                        <FiUser className="mr-2" />
-                        User Dashboard
-                      </button>
-                    </li>
-                    <li>
-                      <button
-                        className="block w-full px-4 py-2 text-left hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white flex items-center"
-                        onClick={() => navigateToDashboard("admin")}
-                      >
-                        <FiUserCheck className="mr-2" />
-                        Admin Dashboard
-                      </button>
-                    </li>
-                  </ul>
-                </div>
-              </li>
               <li>
-                <button
-                  className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
-                  onClick={handleLogout}
+                <NavLink
+                  className={({ isActive }) =>
+                    isActive
+                      ? "block py-2 px-3 bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 md:dark:text-blue-500"
+                      : "block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
+                  }
+                  to="/about"
                 >
-                  <FiLogOut className="h-5 w-5" />
-                </button>
+                  About
+                </NavLink>
               </li>
-
+              {auth?.user ? (
+                <>
+                  <li className="relative">
+                    <button
+                      className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700 flex items-center"
+                      onClick={toggleDropdown}
+                    >
+                      {selectedDashboard}
+                      <svg
+                        className="w-4 h-4 ml-1"
+                        aria-hidden="true"
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 20 20"
+                      >
+                        <path
+                          stroke="currentColor"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth="2"
+                          d="m5 7 5 5 5-5"
+                        />
+                      </svg>
+                    </button>
+                    <div
+                      className={`absolute right-0 z-10 mt-2 w-44 bg-white rounded-md shadow-lg dark:bg-gray-700 ${dropdownOpen ? "block" : "hidden"}`}
+                    >
+                      <ul className="py-1 text-sm text-gray-700 dark:text-gray-200">
+                        <li>
+                          <button
+                            className="block w-full px-4 py-2 text-left hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white flex items-center"
+                            onClick={() => navigateToDashboard("user")}
+                          >
+                            <FiUser className="mr-2" />
+                            User Dashboard
+                          </button>
+                        </li>
+                        <li>
+                          <button
+                            className="block w-full px-4 py-2 text-left hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white flex items-center"
+                            onClick={() => navigateToDashboard("admin")}
+                          >
+                            <FiUserCheck className="mr-2" />
+                            Admin Dashboard
+                          </button>
+                        </li>
+                      </ul>
+                    </div>
+                  </li>
+                  <li>
+                    <button
+                      className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
+                      onClick={handleLogout}
+                    >
+                      <FiLogOut className="h-5 w-5" />
+                    </button>
+                  </li>
+                </>
+              ) : (
+                <>
+                  <li>
+                    <NavLink
+                      className={({ isActive }) =>
+                        isActive
+                          ? "block py-2 px-3 bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 md:dark:text-blue-500"
+                          : "block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
+                      }
+                      to="/login"
+                    >
+                      Login
+                    </NavLink>
+                  </li>
+                  <li>
+                    <NavLink
+                      className={({ isActive }) =>
+                        isActive
+                          ? "block py-2 px-3 bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 md:dark:text-blue-500"
+                          : "block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
+                      }
+                      to="/register"
+                    >
+                      Register
+                    </NavLink>
+                  </li>
+                </>
+              )}
             </ul>
           </div>
         </div>

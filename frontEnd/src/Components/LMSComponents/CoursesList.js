@@ -145,7 +145,7 @@ const CoursesList = ({ variant = "latest" }) => {
   }
 
   return (
-    <div className="w-full h-fit flex flex-wrap justify-evenly items-center gap-4 px-2 lg:px-16 py-2">
+    <div className="w-full h-fit flex flex-wrap items-center gap-4 px-2 lg:px-16 py-2 md:mx-5 md:gap-8">
       {courses.length > 0 ? (
         courses.map((course, index) => (
           <CourseListComponent key={index} item={course} />
