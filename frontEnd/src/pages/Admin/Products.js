@@ -26,7 +26,7 @@ const Products = () => {
       console.log(error);
       toast.error("Something went wrong");
     }
-  };
+  }; 
 
   useEffect(() => {
     getAllproducts();
@@ -34,27 +34,28 @@ const Products = () => {
 
   return (
     <Layout>
-     <div className="row">
-    
-      <div className="col-md-3">
-        <AdminMenu />
-      </div>
-      <div className="col-md-9">
-        <h1 className="text-center">All Products List</h1>
-
-        <div className="d-flex flex-wrap">{products?.map((p) => (
-        <Link key={p._id} to={`/dashboard/admin/products/${p.slug}`} className="product-link"><div className="card" style={{ width: "18rem" }} >
-            <img   src={`http://localhost:8080/api/v1/product/get-productphoto/${p._id}`} className="card-img-top"  />
-            <div className="card-body">
-              <h5 className="card-title">{p.name}</h5>
-              <p className="card-text">{p.description}</p>
-            </div>
-            
-          </div></Link>
-          
-        ))}</div>
-        
-      </div>
+      <AdminMenu />
+      <div className="container mx-auto px-4 py-8">
+        <h1 className="text-3xl font-bold text-gray-900 dark:text-white text-center mb-4">All Products List</h1>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-8">
+          {products?.map((p) => (
+            <Link key={p._id} to={`/dashboard/admin/products/${p.slug}`} className="product-link">
+              <div className="max-w-sm bg-white border border-gray-200 rounded-lg shadow-lg dark:bg-gray-800 dark:border-gray-700 flex flex-col justify-between transition-transform transform hover:scale-105">
+                <img src={`http://localhost:8080/api/v1/product/get-productphoto/${p._id}`} className="p-8 rounded-t-lg object-cover h-72 w-full" alt="product image" />
+                <div className="px-5 pb-5 flex flex-col justify-between flex-grow">
+                  <h5 className="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">{p.name}</h5>
+                  <p className="text-gray-600 dark:text-gray-400">{p.description}</p>
+                  <div className="flex items-center justify-between mt-auto">
+                    <span className="text-3xl font-bold text-gray-900 dark:text-white">${p.price}</span>
+                    <button className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                      Edit
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </Link>
+          ))}
+        </div>
       </div>
     </Layout>
   );

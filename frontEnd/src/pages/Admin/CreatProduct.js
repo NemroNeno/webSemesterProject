@@ -18,10 +18,9 @@ const CreatProduct = () => {
   const [quantity, setquantity] = useState("");
   const [photo, setPhoto] = useState("");
   const [shipping, setShipping] = useState("");
-  console.log(auth?.user)
+  console.log(auth?.user);
 
-
-  const navigate=useNavigate();
+  const navigate = useNavigate();
   //Getting All the Categories
   const getAllCategory = async () => {
     try {
@@ -45,22 +44,21 @@ const CreatProduct = () => {
     e.preventDefault();
 
     try {
-      const productData=new FormData();
-      productData.append("name",name);
-      productData.append("description",description);
-      productData.append("price",price);
-      productData.append("quantity",quantity);
-      productData.append("photo",photo);
-      productData.append("category",category);
-      productData.append("shipping",shipping);
-      productData.append("seller",auth?.user?.id);
+      const productData = new FormData();
+      productData.append("name", name);
+      productData.append("description", description);
+      productData.append("price", price);
+      productData.append("quantity", quantity);
+      productData.append("photo", photo);
+      productData.append("category", category);
+      productData.append("shipping", shipping);
+      productData.append("seller", auth?.user?.id);
 
       console.log(productData);
-      
 
       const res = await axios.post(
         "http://localhost:8080/api/v1/product/create-product",
-       productData,
+        productData,
         {
           headers: {
             Authorization: auth?.token,
@@ -68,9 +66,9 @@ const CreatProduct = () => {
         }
       );
       if (res.data.success) {
-         toast.success(res.data.message);
+        toast.success(res.data.message);
         console.log("Product created");
-        navigate("/dashboard/admin")
+        navigate("/dashboard/admin");
       }
     } catch (error) {
       console.log(error.response);
@@ -79,15 +77,13 @@ const CreatProduct = () => {
   };
   return (
     <Layout>
-      <div className="container-fluid m-3 p-3">
+      <AdminMenu />
+      <div className="container p-3">
         <div className="row">
-          <div className="col-md-3">
-            <AdminMenu />
-          </div>
-          <div className="col-md-9">
-            <div className="card w-75 p-3">
+          <div className="col">
+            <div className="card p-3">
               <h3>Create Product</h3>
-              <div className="m-1 w-75">
+              <div className="m-1">
                 <Select
                   bordered={false}
                   placeholder="Select a category"
@@ -111,11 +107,11 @@ const CreatProduct = () => {
                       type="file"
                       name="photo"
                       accept="image/*"
-                      onChange={(e) =>{ setPhoto(e.target.files[0])
-                                   
+                      onChange={(e) => {
+                        setPhoto(e.target.files[0]);
                       }}
                       hidden
-                    />  
+                    />
                   </label>
                 </div>
                 <div className="mb-3">
