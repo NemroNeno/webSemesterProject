@@ -220,7 +220,7 @@ const Home = () => {
           <Carousel />
         </div>
         <div className="col-12 relative z-10" style={{ marginTop: "-150px" }}>
-          <div className="d-flex flex-wrap md:px-5 md:mx-5 md:gap-5">
+          <div className="d-flex flex-wrap md:px-5 md:mx-5 md:gap-3">
             {products.map((p) => (
               <Product key={p._id} prod={p} addCart={addCart} />
             ))}
