@@ -8,7 +8,7 @@
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "antd": "^5.8.5",
-    "axios": "^1.4.0",
+    "axios": "^1.13.5",
     "braintree-web-drop-in-react": "^1.2.1",
     "flowbite": "^2.3.0",
     "flowbite-react": "^0.7.2",
@@ -21,7 +21,7 @@
     "react-icons": "^4.10.1",
     "react-modal": "^3.16.1",
     "react-range-slider-input": "^3.0.7",
-    "react-router-dom": "^6.15.0",
+    "react-router-dom": "^6.30.3",
     "react-scripts": "5.0.1",
     "react-toastify": "^9.1.3",
     "web-vitals": "^2.1.4"
@@ -51,7 +51,7 @@
     ]
   },
   "devDependencies": {
-    "ajv": "^7.2.4",
+    "ajv": "^8.18.0",
     "tailwindcss": "^3.4.1"
   }
 }
